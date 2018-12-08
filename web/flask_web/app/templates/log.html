@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block content %}    
+<div class="container">
+    <table class="table" id="table-log">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Широта спутника</th>
+                <th>Долгота спутника</th>
+                <th>Высота спутника</th>
+                <th>Широта антены</th>
+                <th>Долгота антены</th>
+                <th>Высота антенны</th>
+                <th>Угол поворота 1</th>
+                <th>Угол поворота 2</th>
+                <th>Время</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for log in logs %}
+            <tr>
+                <td>{{ log.id }}</td>
+                <td>{{ log.sat_lat }}</td>
+                <td>{{ log.sat_long }}</td>
+                <td>{{ log.sat_height }}</td>
+                <td>{{ log.ant_lat }}</td>
+                <td>{{ log.ant_long }}</td>
+                <td>{{ log.ant_height }}</td>
+                <td>{{ log.teta }}°</td>
+                <td>{{ log.fi_priv }}°</td>
+                <td>{{ log.timestamp }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
+<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+<script type="text/javascript">
+    $("#table-log").DataTable();
+</script>
+{% endblock %}

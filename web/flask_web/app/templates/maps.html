@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block content %}
+
+<div class="container">
+	<div id="OSMap" style="height: 80vh;"></div>
+</div>
+
+<script src="http://www.openlayers.org/api/OpenLayers.js"></script>
+
+<script type="text/javascript">
+	map = new OpenLayers.Map("OSMap");//инициализация карты
+    var mapnik = new OpenLayers.Layer.OSM();//создание слоя карты
+    map.addLayer(mapnik);//добавление слоя
+    map.setCenter(new OpenLayers.LonLat( {{ ant_lat }}, {{ ant_long }} ) //(широта, долгота)
+          .transform(
+            new OpenLayers.Projection("EPSG:4326"),
+            new OpenLayers.Projection("EPSG:900913")
+          ), 10 // масштаб
+        );
+
+
+    var markers = new OpenLayers.Layer.Markers( "Markers" );
+    map.addLayer(markers);
+
+    var lonLat1 = new OpenLayers.LonLat( {{ ant_lat }}, {{ ant_long }} )
+          .transform(
+            new OpenLayers.Projection("EPSG:4326"), // transform from WGS 1984
+            map.getProjectionObject() // to Spherical Mercator Projection
+          );
+
+    var lonLat2 = new OpenLayers.LonLat( {{ sat_lat }}, {{ sat_long }} )
+          .transform(
+            new OpenLayers.Projection("EPSG:4326"), 
+            map.getProjectionObject() 
+          );
+    
+    markers.addMarker(new OpenLayers.Marker(lonLat1));
+    markers.addMarker(new OpenLayers.Marker(lonLat2));
+    
+</script>
+
+{% endblock %}
